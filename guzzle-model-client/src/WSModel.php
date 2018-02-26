@@ -11,7 +11,7 @@
 // Update : Arnaud CHARLEROY => add namespace
 //***********************************************************************************************
 
-namespace inra\wsclient;
+namespace openSILEX\guzzleClientPHP;
 
 include_once 'config.php';
 
