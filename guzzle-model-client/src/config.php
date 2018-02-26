@@ -11,7 +11,7 @@
 // Last modification date:  January, 2017
 // Subject: Contains all the config constants
 //***********************************************************************************************
-namespace inra\wsclient;
+namespace openSILEX\guzzleClientPHP;
 
 //Headers requests:
 define('RESPONSE_CONTENT_TYPE', 'application/json');

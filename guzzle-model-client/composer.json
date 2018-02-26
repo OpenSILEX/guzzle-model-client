@@ -1,7 +1,7 @@
 {
-    "name": "inra/ws-client-php",
-    "description": "A list of class to connect php web application to phenomeapi webservices",
-    "licence": "INRA Licence",
+    "name": "openSILEX/guzzle-client-php",
+    "description": "A list of class to connect php web application to phis webservices",
+    "licence": "AGPL-3.0",
     "require": {
   	"php": ">=5.3.0",
         "firebase/php-jwt": "^5.0",
@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "inra\\wsclient\\": "src"
+            "openSILEX\\guzzleClientPHP\\": "src/"
         }
     },
     "minimum-stability": "dev"

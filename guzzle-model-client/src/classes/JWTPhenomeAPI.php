@@ -10,7 +10,7 @@
 // Last modification date:  November, 2017
 // Subject: Represent a JWT for phenomeapi
 //***********************************************************************************************
-namespace inra\wsclient\classes;
+namespace openSILEX\guzzleClientPHP\classes;
 
 use \Firebase\JWT\JWT;
 
