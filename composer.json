@@ -1,6 +1,7 @@
 {
-    "name": "openSILEX/guzzle-client-php",
+    "name": "openSILEX/guzzle-model-client",
     "description": "A list of class to connect php web application to phis webservices",
+    "type": "library",
     "licence": "AGPL-3.0",
     "require": {
   	"php": ">=5.3.0",
