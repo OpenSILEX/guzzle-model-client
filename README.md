@@ -19,7 +19,68 @@ The recommended way to install guzzle-model-client is through  [`Composer`](http
 }
 ```
 
-## WSModel implementation class example
+
+
+## WSJWT (Web service JSON Web Token)
+
+### Key pair authentication
+
+A valid public need to be create key, if you already have a valid public key go to the next step **WSJWT implementation class example**
+
+#### Create a key pair
+
+To understand key pair concept : https://www.ssh.com/ssh/public-key-authentication
+
+Create a private key (used by the server => web service):
+```bash
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+```
+Extract the public key from the private key (used by the client => webservice client):
+```bash
+openssl rsa -pubout -in private_key.pem -outform DER -out public_key.der
+```
+
+### WSJWT implementation class example
+
+```php
+<?php
+use openSILEX\guzzleClientPHP\classes\WSJWT;
+
+
+//**********************************************************************************************
+//                                       WSJWTTestAPI.php 
+//
+// Author(s): Arnaud CHARLEROY
+// SILEX version 1.0
+// Copyright © - INRA - 2018
+// Creation date: March 2018
+// Contact: arnaud.charleroy@inra.fr, anne.tireau@inra.fr, pascal.neveu@inra.fr
+// Last modification date:  March, 2018
+// Subject: An implementation of WSJWT for a web service
+//***********************************************************************************************
+
+
+class WSJWTTestAPI extends WSJWT {
+
+    function __construct($payload, $private_key_path = null, $algorithm = null) {
+        parent::__construct($payload, $algorithm, $private_key_path);
+
+        if (!is_null($algorithm)) {
+            $this->algorithm = $algorithm;
+        } else {
+            $this->algorithm = ENCRYPTION_KEY_ALGORITHM; // example : 'RS256' 
+        }
+
+        if (!is_null($private_key_path)) {
+            $this->private_key_path = $private_key_path;
+        } else {
+            $this->private_key_path = PRIVATE_KEY_PATH; // example : "{app_directory}/rsa_keys/Alfis-JWT-private-key.pem"
+        }
+    }
+}
+```
+
+### WSModel token implementation class need to use WSJWTTestAPI class example
 
 ```php
 <?php
@@ -89,65 +150,6 @@ class WSTokenModel extends WSModel {
         }
     }
 
-}
-```
-
-## WSJWT (Web service JSON Web Token)
-
-### Key pair authentication
-
-A valid public need to be create key, if you already have a valid public key go to the next step **WSJWT implementation class example**
-
-#### Create a key pair
-
-To understand key pair concept : https://www.ssh.com/ssh/public-key-authentication
-
-Create a private key (used by the server => web service):
-```bash
-openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
-```
-Extract the public key from the private key (used by the client => webservice client):
-```bash
-openssl rsa -pubout -in private_key.pem -outform DER -out public_key.der
-```
-
-### WSJWT implementation class example
-
-```php
-<?php
-use openSILEX\guzzleClientPHP\classes\WSJWT;
-
-
-//**********************************************************************************************
-//                                       WSJWTTestAPI.php 
-//
-// Author(s): Arnaud CHARLEROY
-// SILEX version 1.0
-// Copyright © - INRA - 2018
-// Creation date: March 2018
-// Contact: arnaud.charleroy@inra.fr, anne.tireau@inra.fr, pascal.neveu@inra.fr
-// Last modification date:  March, 2018
-// Subject: An implementation of WSJWT for a web service
-//***********************************************************************************************
-
-
-class WSJWTTestAPI extends WSJWT {
-
-    function __construct($payload, $private_key_path = null, $algorithm = null) {
-        parent::__construct($payload, $algorithm, $private_key_path);
-
-        if (!is_null($algorithm)) {
-            $this->algorithm = $algorithm;
-        } else {
-            $this->algorithm = ENCRYPTION_KEY_ALGORITHM; // example : 'RS256' 
-        }
-
-        if (!is_null($private_key_path)) {
-            $this->private_key_path = $private_key_path;
-        } else {
-            $this->private_key_path = PRIVATE_KEY_PATH; // example : "{app_directory}/rsa_keys/Alfis-JWT-private-key.pem"
-        }
-    }
 }
 ```
 
