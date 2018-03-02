@@ -1,6 +1,6 @@
 <?php
 //**********************************************************************************************
-//                               WSModel.php 
+//                               WSModel.php
 //
 // Author(s): Morgane VIDAL
 // Copyright © - INRA - 2017
@@ -18,7 +18,7 @@ include_once 'config.php';
 use GuzzleHttp\Client;
 
 /**
- * Basic class with basic REST web service functions. 
+ * Basic class with basic REST web service functions.
  * It encapsulate Guzzle.
  * We assume that the web service uses a token system, with user session token in
  * the headers
@@ -30,7 +30,7 @@ abstract class WSModel {
     /**
      * service url
      * e.g. "http://localhost/webservice/rest/"
-     * @var String 
+     * @var String
      */
     protected $basePath;
     
@@ -54,7 +54,7 @@ abstract class WSModel {
      * @param String $basePath the path to the web service. e.g. http://localhost/webservice/rest/
      * @param String $serviceName the service name. e.g. experiment
      * @param string $accept web service return type. Default : RESPONSE_CONTENT_TYPE
-     * @param string $contentType web service content type. Default : REQUEST_CONTENT_TYPE 
+     * @param string $contentType web service content type. Default : REQUEST_CONTENT_TYPE
      */
     public function __construct($basePath, $serviceName, $accept = RESPONSE_CONTENT_TYPE, $contentType = REQUEST_CONTENT_TYPE) {
         $this->basePath = $basePath;
@@ -64,7 +64,7 @@ abstract class WSModel {
                                 'headers' => [
                                     'Accept' => $accept,
                                     'Content-Type' => $contentType,
-                                    'Authorization' => "Bearer " 
+                                    'Authorization' => "Bearer "
                                 ]
                             ]);
     }
@@ -98,7 +98,7 @@ abstract class WSModel {
      * [
      *  "page" => "0",
      *  "pageSize" => "1000",
-     *  "uri" => "http://uri/of/my/entity" 
+     *  "uri" => "http://uri/of/my/entity"
      * ]
      * @return string if error the error message
      *                else the json of the web service result
@@ -111,41 +111,43 @@ abstract class WSModel {
         if (is_array($params)) {
             foreach ($params as $key => $value) {
                 if ($value !== null && $value !== "") {
-                    ($requestParamsPath == "") ? 
-                        $requestParamsPath .= "?" . $key . "=" . urlencode($value) 
+                    ($requestParamsPath == "") ?
+                        $requestParamsPath .= "?" . $key . "=" . urlencode($value)
                             : $requestParamsPath .= "&" . $key . "=" . urlencode($value);
                 }
-            } 
+            }
         }
         
         //Send the request
         try {
             $requestRes = $this->client->request(
-                    'GET', 
+                    'GET',
                     $this->serviceName . $subService . $requestParamsPath,
                     [
                         'headers' => [
                             'Authorization' => "Bearer " . $sessionToken
                         ],
                         'body' => $body
-            ]);
+            ]
+            );
         } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs de type 401
-            return $this->errorMessage($e->getResponse()->getStatusCode(), 
-                                       json_decode($e->getResponse()->getBody()));
-            
+            return $this->errorMessage(
+                $e->getResponse()->getStatusCode(),
+                                       json_decode($e->getResponse()->getBody())
+            );
         } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
         }
         
-        return json_decode($requestRes->getBody());       
+        return json_decode($requestRes->getBody());
     }
    
     /**
      * Send a post request to the web service
      * @param String $sessionToken the user session token
-     * @param String $subService the "sub service" called. e.g. /{uri}. 
+     * @param String $subService the "sub service" called. e.g. /{uri}.
      *                           "" if no sub service
      * @param Array  $params key => value which contains the data to send to the post.
      * e.g.
@@ -166,7 +168,7 @@ abstract class WSModel {
         //Send request
         try {
             $requestRes = $this->client->request(
-                    'POST', 
+                    'POST',
                     $this->serviceName . $subService,
                     [
                         'headers' => [
@@ -175,23 +177,26 @@ abstract class WSModel {
                         'body' => $body
                     ]
             );
-
-        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs   
-            return $this->errorMessage($e->getResponse()->getStatusCode(), 
-                                       json_decode($e->getResponse()->getBody()));
+        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs
+            return $this->errorMessage(
+   
+                $e->getResponse()->getStatusCode(),
+                                       json_decode($e->getResponse()->getBody())
+   
+            );
         } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
         }
         
-       return json_decode($requestRes->getBody()); 
+        return json_decode($requestRes->getBody());
     }
     
     /**
      * Send a put request to the web service
      * @param String $sessionToken the user session token
-     * @param String $subService the "sub service" called. e.g. /{uri}. 
+     * @param String $subService the "sub service" called. e.g. /{uri}.
      *                           "" if no sub service
      * @param Array  $params key => value which contains the data to send to the post.
      * e.g.
@@ -212,7 +217,7 @@ abstract class WSModel {
         //Send request
         try {
             $requestRes = $this->client->request(
-                    'PUT', 
+                    'PUT',
                     $this->serviceName . $subService,
                     [
                         'headers' => [
@@ -221,16 +226,19 @@ abstract class WSModel {
                         'body' => $body
                     ]
             );
-
-        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs   
-            return $this->errorMessage($e->getResponse()->getStatusCode(), 
-                                       json_decode($e->getResponse()->getBody()));
+        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs
+            return $this->errorMessage(
+   
+                $e->getResponse()->getStatusCode(),
+                                       json_decode($e->getResponse()->getBody())
+   
+            );
         } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
         }
         
-       return json_decode($requestRes->getBody()); 
+        return json_decode($requestRes->getBody());
     }
 }
