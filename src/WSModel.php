@@ -25,8 +25,7 @@ use GuzzleHttp\Client;
  * @see http://docs.guzzlephp.org/en/stable/
  * @author Morgane Vidal <morgane.vidal@inra.fr>
  */
-abstract class WSModel
-{
+abstract class WSModel {
     
     /**
      * service url
@@ -57,8 +56,7 @@ abstract class WSModel
      * @param string $accept web service return type. Default : RESPONSE_CONTENT_TYPE
      * @param string $contentType web service content type. Default : REQUEST_CONTENT_TYPE
      */
-    public function __construct($basePath, $serviceName, $accept = RESPONSE_CONTENT_TYPE, $contentType = REQUEST_CONTENT_TYPE)
-    {
+    public function __construct($basePath, $serviceName, $accept = RESPONSE_CONTENT_TYPE, $contentType = REQUEST_CONTENT_TYPE) {
         $this->basePath = $basePath;
         $this->serviceName = $serviceName;
         $this->client = new Client([
@@ -71,8 +69,7 @@ abstract class WSModel
                             ]);
     }
     
-    public function getBasePath()
-    {
+    public function getBasePath() {
         return $this->basePath;
     }
     
@@ -82,8 +79,7 @@ abstract class WSModel
      * @param string $errorBody the error message
      * @return the error message to print
      */
-    protected function errorMessage($errorCode, $errorBody)
-    {
+    protected function errorMessage($errorCode, $errorBody) {
         if ($errorCode === 401 && isset($errorBody->{'metadata'}->{'status'}[0]->{'exception'}->{'details'})) {
             $errorDetails = $errorBody->{'metadata'}->{'status'}[0]->{'exception'}->{'details'};
             if ($errorDetails === "Invalid token") {
@@ -107,8 +103,7 @@ abstract class WSModel
      * @return string if error the error message
      *                else the json of the web service result
      */
-    public function get($sessionToken, $subService, $params = null, $bodyToSend = null)
-    {
+    public function get($sessionToken, $subService, $params = null, $bodyToSend = null) {
         //Prepare the query with the body
         $requestParamsPath = "";
         $body = json_encode($bodyToSend, $options = JSON_UNESCAPED_SLASHES);
@@ -167,8 +162,7 @@ abstract class WSModel
      * ]
      * @return mixed the message body returned by the web service (unencoded json)
      */
-    public function post($sessionToken, $subService, $params)
-    {
+    public function post($sessionToken, $subService, $params) {
         //Generate the post body with the params
         $body = json_encode($params, $options = JSON_UNESCAPED_SLASHES);
         //Send request
@@ -217,8 +211,7 @@ abstract class WSModel
      * ]
      * @return mixed the message body returned by the web service (unencoded json)
      */
-    public function put($sessionToken, $subService, $params)
-    {
+    public function put($sessionToken, $subService, $params) {
         //Generate the post body with the params
         $body = json_encode($params, $options = JSON_UNESCAPED_SLASHES);
         //Send request

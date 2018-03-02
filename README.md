@@ -25,7 +25,7 @@ The recommended way to install guzzle-model-client is through  [`Composer`](http
 
 ### Key pair authentication
 
-A valid public need to be create key, if you already have a valid public key go to the next step **WSJWT implementation class example**
+A valid public key need to be create key, if you already have a valid public key go to the next step **WSJWT implementation class example**
 
 #### Create a key pair
 

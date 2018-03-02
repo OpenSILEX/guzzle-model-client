@@ -26,8 +26,7 @@ use \Firebase\JWT\JWT;
  * @author Arnaud Charleroy <arnaud.charleroy@inra.fr>
  * @since 1.0.0
  */
-abstract class WSJWT
-{
+abstract class WSJWT {
 
     /**
      * The payload contains the claims. Claims are statements about an entity (typically, the user) and additional metadata.
@@ -65,40 +64,33 @@ abstract class WSJWT
      */
     protected $jwt;
 
-    public function __construct($payload, $algorithm, $private_key_path)
-    {
+    public function __construct($payload, $algorithm, $private_key_path) {
         $this->payload = $payload;
         $this->algorithm = $algorithm;
         $this->private_key_path = $private_key_path;
     }
 
-    public function getPayload()
-    {
+    public function getPayload() {
         return $this->payload;
     }
 
-    public function getAlgorithm()
-    {
+    public function getAlgorithm() {
         return $this->algorithm;
     }
 
-    public function getPrivate_key_path()
-    {
+    public function getPrivate_key_path() {
         return $this->private_key_path;
     }
 
-    public function setPayload($payload)
-    {
+    public function setPayload($payload) {
         $this->payload = $payload;
     }
 
-    public function setAlgorithm($algorithm)
-    {
+    public function setAlgorithm($algorithm) {
         $this->algorithm = $algorithm;
     }
 
-    public function setPrivate_key_path($private_key_path)
-    {
+    public function setPrivate_key_path($private_key_path) {
         $this->private_key_path = $private_key_path;
     }
 
@@ -106,8 +98,7 @@ abstract class WSJWT
      * @param bool $debug true to print an error occured
      * @return string|null signed JSON Web Token or null if an error occured
      */
-    public function build($debug = false)
-    {
+    public function build($debug = false) {
         try {
             $this->jwt = JWT::encode($this->payload, file_get_contents($this->private_key_path), $this->algorithm);
         } catch (Exception $ex) {
@@ -122,8 +113,7 @@ abstract class WSJWT
      * Override __toString method
      * @return string signed JSON Web Token
      */
-    public function __toString()
-    {
+    public function __toString() {
         return $this->build();
     }
 }
