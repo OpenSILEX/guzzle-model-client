@@ -4,18 +4,20 @@
     "type": "library",
     "licence": "AGPL-3.0",
     "require": {
-  	"php": ">=5.3.0",
+  	"php": ">=5.5.0",
         "firebase/php-jwt": "^5.0",
  	"guzzlehttp/guzzle": "~6.1"
     },
     "authors": [
         {
             "name": "Arnaud CHARLEROY",
-            "email": "arnaud.charleroy@inra.fr"
+            "email": "arnaud.charleroy@inra.fr",
+            "role": "Developer"
         },
  	{
             "name": "Morgane VIDAL",
-            "email": "morgane.vidal@inra.fr"
+            "email": "morgane.vidal@inra.fr",
+            "role": "Developer"
         }
     ],
     "autoload": {

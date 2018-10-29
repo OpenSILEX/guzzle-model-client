@@ -1,7 +1,7 @@
 <?php
 
 //**********************************************************************************************
-//                                       config.php 
+//                                       config.php
 //
 // Author(s): Morgane VIDAL, Arnaud CHARLEROY
 // PHIS-SILEX version 1.0
