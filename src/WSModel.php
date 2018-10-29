@@ -128,14 +128,10 @@ abstract class WSModel {
                             'Authorization' => "Bearer " . $sessionToken
                         ],
                         'body' => $body
-            ]
-            );
-        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs de type 401
-            return $this->errorMessage(
-                $e->getResponse()->getStatusCode(),
-                                       json_decode($e->getResponse()->getBody())
-            );
-        } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
+            ]);
+        } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
+            return json_decode($e->getResponse()->getBody());  
+        } catch (\GuzzleHttp\Exception\ConnectException $e) { //Server connection errors
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
@@ -177,14 +173,10 @@ abstract class WSModel {
                         'body' => $body
                     ]
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs
-            return $this->errorMessage(
-   
-                $e->getResponse()->getStatusCode(),
-                                       json_decode($e->getResponse()->getBody())
-   
-            );
-        } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
+
+        } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
+            return json_decode($e->getResponse()->getBody());
+        } catch (\GuzzleHttp\Exception\ConnectException $e) { //server connection errors
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
@@ -226,14 +218,9 @@ abstract class WSModel {
                         'body' => $body
                     ]
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) { //Erreurs
-            return $this->errorMessage(
-   
-                $e->getResponse()->getStatusCode(),
-                                       json_decode($e->getResponse()->getBody())
-   
-            );
-        } catch (\GuzzleHttp\Exception\ConnectException $e) { //Erreurs de connexion au serveur
+        } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
+            return json_decode($e->getResponse()->getBody());
+        } catch (\GuzzleHttp\Exception\ConnectException $e) { //Server connection error
             return WEB_SERVICE_CONNECTION_ERROR_MESSAGE;
         } catch (\GuzzleHttp\Exception $e) {
             return "Other exception : " . $e->getResponse()->getBody();
