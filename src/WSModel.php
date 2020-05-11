@@ -48,6 +48,12 @@ abstract class WSModel {
     protected $client;
     
     /**
+     * Need to be authorized or nor
+     * @var Boolean
+     */
+    protected $withAuthorizationHeaders = true;
+    
+    /**
      * Initialise the fields correspondint to the path, service names and create
      * Guzzle client
      * @see inra\wsclient\config.php
@@ -63,8 +69,8 @@ abstract class WSModel {
                                 'base_uri' => $this->basePath,
                                 'headers' => [
                                     'Accept' => $accept,
-                                    'Content-Type' => $contentType,
-                                    'Authorization' => "Bearer "
+                                    'Content-Type' => $contentType
+//                                    'Authorization' => "Bearer "
                                 ]
                             ]);
     }
@@ -117,18 +123,21 @@ abstract class WSModel {
                 }
             }
         }
-        
+        $params = [
+            'body' => $body
+        ];
+        if ($this->withAuthorizationHeaders) {
+            $params ['headers'] = [
+                'Authorization' => "Bearer " . $sessionToken
+            ];
+        }
         //Send the request
         try {
             $requestRes = $this->client->request(
                     'GET',
                     $this->serviceName . $subService . $requestParamsPath,
-                    [
-                        'headers' => [
-                            'Authorization' => "Bearer " . $sessionToken
-                        ],
-                        'body' => $body
-            ]);
+                    $params
+                    );
         } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
             return json_decode($e->getResponse()->getBody());  
         } catch (\GuzzleHttp\Exception\ConnectException $e) { //Server connection errors
@@ -161,17 +170,21 @@ abstract class WSModel {
     public function post($sessionToken, $subService, $params) {
         //Generate the post body with the params
         $body = json_encode($params, $options = JSON_UNESCAPED_SLASHES);
+        
+        $params = [
+            'body' => $body
+        ];
+        if ($this->withAuthorizationHeaders) {
+            $params ['headers'] = [
+                'Authorization' => "Bearer " . $sessionToken
+            ];
+        }
         //Send request
         try {
             $requestRes = $this->client->request(
                     'POST',
                     $this->serviceName . $subService,
-                    [
-                        'headers' => [
-                                'Authorization' => "Bearer " . $sessionToken
-                            ],
-                        'body' => $body
-                    ]
+                     $params
             );
 
         } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
@@ -206,17 +219,20 @@ abstract class WSModel {
     public function put($sessionToken, $subService, $params) {
         //Generate the post body with the params
         $body = json_encode($params, $options = JSON_UNESCAPED_SLASHES);
+        $params = [
+            'body' => $body
+        ];
+        if ($this->withAuthorizationHeaders) {
+            $params ['headers'] = [
+                'Authorization' => "Bearer " . $sessionToken
+            ];
+        }
         //Send request
         try {
             $requestRes = $this->client->request(
                     'PUT',
                     $this->serviceName . $subService,
-                    [
-                        'headers' => [
-                                'Authorization' => "Bearer " . $sessionToken
-                            ],
-                        'body' => $body
-                    ]
+                    $params
             );
         } catch (\GuzzleHttp\Exception\ClientException $e) { //Errors
             return json_decode($e->getResponse()->getBody());
